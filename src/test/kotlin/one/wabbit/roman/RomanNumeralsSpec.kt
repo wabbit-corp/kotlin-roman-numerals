@@ -1,34 +1,44 @@
 package one.wabbit.roman
 
 import kotlin.random.Random
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class RomanNumeralsSpec {
     // --- Canonical table tests (STRICT expectations) ---
     @Test
     fun canonical_examples_strict() {
-        val cases = mapOf(
-            1 to "I",
-            2 to "II",
-            3 to "III",
-            4 to "IV",
-            5 to "V",
-            9 to "IX",
-            14 to "XIV",
-            19 to "XIX",
-            40 to "XL",
-            44 to "XLIV",
-            49 to "XLIX",
-            90 to "XC",
-            99 to "XCIX",
-            400 to "CD",
-            944 to "CMXLIV",
-            2024 to "MMXXIV",
-            3999 to "MMMCMXCIX"
-        )
+        val cases =
+            mapOf(
+                1 to "I",
+                2 to "II",
+                3 to "III",
+                4 to "IV",
+                5 to "V",
+                9 to "IX",
+                14 to "XIV",
+                19 to "XIX",
+                40 to "XL",
+                44 to "XLIV",
+                49 to "XLIX",
+                90 to "XC",
+                99 to "XCIX",
+                400 to "CD",
+                944 to "CMXLIV",
+                2024 to "MMXXIV",
+                3999 to "MMMCMXCIX",
+            )
         for ((arabic, roman) in cases) {
             assertEquals(roman, RomanNumerals.toRoman(arabic, RomanMode.STRICT), "toRoman($arabic)")
-            assertEquals(arabic, RomanNumerals.toArabic(roman, RomanMode.STRICT), "toArabic($roman)")
+            assertEquals(
+                arabic,
+                RomanNumerals.toArabic(roman, RomanMode.STRICT),
+                "toArabic($roman)",
+            )
         }
     }
 
@@ -66,11 +76,26 @@ class RomanNumeralsSpec {
     // --- Invalid forms should be rejected (STRICT & EXTENDED) ---
     @Test
     fun rejects_invalid_forms() {
-        val invalid = listOf(
-            "", "IIII", "VV", "LL", "DD",
-            "IL", "IC", "IM", "XD", "XM", "VX",
-            "IIV", "XXC", "MCMCM", "CMM", "LC", "DM"
-        )
+        val invalid =
+            listOf(
+                "",
+                "IIII",
+                "VV",
+                "LL",
+                "DD",
+                "IL",
+                "IC",
+                "IM",
+                "XD",
+                "XM",
+                "VX",
+                "IIV",
+                "XXC",
+                "MCMCM",
+                "CMM",
+                "LC",
+                "DM",
+            )
         for (s in invalid) {
             assertFalse(RomanNumerals.isValid(s, RomanMode.STRICT), "STRICT accepted `$s`")
             assertFalse(RomanNumerals.isValid(s, RomanMode.EXTENDED), "EXTENDED accepted `$s`")
