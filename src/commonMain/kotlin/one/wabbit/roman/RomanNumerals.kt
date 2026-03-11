@@ -1,7 +1,5 @@
 package one.wabbit.roman
 
-import java.util.Locale
-
 enum class RomanMode {
     STRICT,
     EXTENDED,
@@ -21,7 +19,6 @@ object RomanNumerals {
             RomanMode.EXTENDED -> patternExtended
         }
 
-    @JvmOverloads
     fun toRoman(number: Int, mode: RomanMode = RomanMode.EXTENDED): String {
         when (mode) {
             RomanMode.STRICT ->
@@ -46,10 +43,9 @@ object RomanNumerals {
         return out.toString()
     }
 
-    private fun normalizeInput(rawRoman: String): String = rawRoman.trim().uppercase(Locale.ROOT)
+    private fun normalizeInput(rawRoman: String): String = rawRoman.trim().uppercase()
 
     /** Parse Roman numerals to Arabic integers with validation. */
-    @JvmOverloads
     fun toArabic(rawRoman: String, mode: RomanMode = RomanMode.EXTENDED): Int {
         val roman = normalizeInput(rawRoman)
         if (roman.isEmpty()) throw IllegalArgumentException("Empty Roman numeral")
@@ -85,7 +81,6 @@ object RomanNumerals {
         }
 
     /** Validate without parsing. */
-    @JvmOverloads
     fun isValid(rawRoman: String, mode: RomanMode = RomanMode.EXTENDED): Boolean {
         val roman = normalizeInput(rawRoman)
         if (roman.isEmpty()) return false
